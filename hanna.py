@@ -234,7 +234,7 @@ def attack():
    # response = proc.recv(4096); #print('\r\n' + response.decode('ascii'))
    #
    proc.shutdown(socket.SHUT_RDWR); proc.close();
-   slEEp = 0.01; status = 'success'; # print_status('success', hexd);
+   slEEp = 0.05; status = 'success'; # print_status('success', hexd);
   except socket.error:
    slEEp = 1.00; status = 'failure'; # print_status('failure', hexd);
   except (KeyboardInterrupt, SystemExit):
