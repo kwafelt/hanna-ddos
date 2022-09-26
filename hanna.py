@@ -58,32 +58,24 @@ def t1m3r():
  Timer(0.5,parse).start();
 
 def parse():
- sa = len(sys.argv);
- if sa == 3:
+ if (len(sys.argv) == 3):
   global target; global port;
   target = sys.argv[1]; port = sys.argv[2]; port = int(port);
   start();
  else:
   sys.stdout.write(f'\r\n Usage: {sys.argv[0]} < TARGET_IP > < PORT >');
-  sys.stdout.write(f'\r\n exmpl: {sys.argv[0]} 255.255.255.255 :80\n');
-  sys.stdout.flush(); reset(0); sys.exit(1);
+  sys.stdout.write(f'\r\n exmpl: {sys.argv[0]} 255.255.255.255 443\n');
+  sys.stdout.flush(); reset(0); sys.exit(0); return False;
 
 # scratch.py
 #
 REMOTE_SERVER = 'cloudflare.com'; remote = REMOTE_SERVER; STATE = True
 TARGET_IP = '80.179.151.134'; TARGET_PORT = 443; status = 'mill'
-#
-#target = sys.argv[1]; port = sys.argv[2];
-t4rg3t = '192.168.11.17'; p0rt = 5000;
-#
 # pAUSE
-
-
-
 
 def test():
  s = "Hello World"
- s = s.replace("ld","Universe")
+ s = s.replace("world","Universe")
  print(s)
 
 def colored(r,g,b,text):
@@ -286,5 +278,5 @@ def verify():
 try: parse(); reset(0);
 except (IOError, OSError): print('main_OSError');
 except (KeyboardInterrupt, SystemExit): sys.stdout.write(f'\r\n {txt}\r\n'); sys.stdout.flush();
-finally: reset(1); test(); sys.exit(0);
+finally: reset(1); sys.exit(0);
 # TERIMA KASEH~
