@@ -1,2 +1,2 @@
-# hanna-ddos ver. beta 1.0
--- ddos tools / under construction --
+# hanna-ddos ver. beta 1.1
+UPDATE: FRIDAY SEP 30; reconstruction..
