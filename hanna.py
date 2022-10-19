@@ -259,7 +259,7 @@ class print_status():
         tx4 = color(224,191,184, '< RECONNECTING');
         sys.stdout.write(f'\r\n {tx1} {tx2} {tx3} {tx4}\r');
 
-    flag = 'hsc{kwafeLt_wAS_hERE}';
+    flag = 'ssl{kwafeLt_wAS_hERE}';
 
 ###############################################################################
 
