@@ -1,2 +1,2 @@
-# hanna-ddos ver. beta 2.1
-UPDATE: WED OCT 19; reconstruction..
+# hanna-ddos ver. beta 2.2
+UPDATE: MON OCT 31; reconstruction..
