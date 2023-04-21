@@ -70,7 +70,6 @@ def binary(data):
 
 ####################################################################################################
 
-
 def closed(init):
   if (init == 0):
     write(f'\r {color(255,196,196,"CTRL-C PRESSED / KEYBOARD INTERRUPT RECEIVED, EXITING..   ")}\r\n')
@@ -91,9 +90,6 @@ def hashlb(data):
   str2hash = str(data).replace(".","")
   result = hashlib.md5(str2hash.encode())
   return result.hexdigest()
-
-
-
 
 # FUNCTION / MINI-EMBED / casual-const..
 # function untuk scan detail IP
@@ -162,7 +158,7 @@ def phase4(init):
 
 def phase5(init):
   reply = init
-  if (reply == bb[0]) or (reply == bb[1]) or (reply == bb[2]): # sila lihat variable bb line 21
+  if (reply == bb[0]) or (reply == bb[1]) or (reply == bb[2]): # sila lihat variable bb
     phase6(init)
   else:
     phase4('  try again')
@@ -218,18 +214,13 @@ def cproxy(proxy_address):
     # Send a CONNECT request to the remote server through the proxy
     connect_request = 'CONNECT {}:{} HTTP/1.1\r\nHost: {}\r\n\r\n'.format(server_address[0], server_address[1], server_address[0]).encode()
     status = proxy_sock.sendall(connect_request)
-    
     if status is None:
       print('PROXY CONNECTED')
       request = 'GET / HTTP/1.1\r\nHost: {}\r\n\r\n'
-      
-      
       proxy_sock.sendto((request).encode('ascii'), server_address)
       print('success')
-      
     else:
       pass
-    
     # Send a request to the remote server through the proxy
     request = 'GET / HTTP/1.1\r\nHost: {}\r\n\r\n'.format(server_address[0]).encode('ascii')
     proxy_sock.sendall(request)
@@ -279,7 +270,7 @@ def recons(data):
     # connect the socket to a remote server
     try:
       # server = (target_host, target_port)
-      proc.settimeout(2.3)
+      proc.settimeout(2.5)
       proc.connect(server)
       # send some bytes over the socket || HTTP/1.1 request
       bytes1 = f'GET /?!{cookie} {co[1]}\r\nHost: {servnm}\r\nAccept: */*\r\nUser-Agent: {ua}\r\n\r\n'
